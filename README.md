@@ -79,4 +79,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [ESP32 Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/)
 - [Arduino IDE](https://www.arduino.cc/en/software)
-- 
