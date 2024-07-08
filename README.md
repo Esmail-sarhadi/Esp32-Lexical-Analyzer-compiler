@@ -35,7 +35,7 @@ This project utilizes an ESP32 microcontroller to create a simple web server tha
 2. **Setup Arduino IDE**
 
    - Open the Arduino IDE.
-   - Go to **File** -> **Open** and select the `esp32-file-upload-lexical-analyzer.ino` file from the cloned repository.
+   - Go to **File** -> **Open** and select the `main.ino` file from the cloned repository.
 
 3. **Configure Wi-Fi Credentials**
 
