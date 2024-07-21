@@ -84,6 +84,23 @@
       .highlight-box:hover {
         transform: translateX(5px);
       }
+      .language-switch {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        display: flex;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 5px 10px;
+        border-radius: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      .language-switch img {
+        transition: transform 0.3s ease;
+      }
+      .language-switch img:hover {
+        transform: scale(1.1);
+      }
       pre {
         background-color: #f1f1f1;
         padding: 15px;
@@ -94,6 +111,15 @@
   </head>
   <body>
     <div class="container-lg px-3 my-5 markdown-body">
+      <div class="language-switch">
+        <span style="font-size: 1.2em; font-weight: bold; margin-left: 10px;">زبان</span>
+        <a href="index.html" style="text-decoration: none; margin: 0 5px;">
+          <img src="https://flagcdn.com/w40/gb.png" width="30" alt="English">
+        </a>
+        <a href="index_fa.html" style="text-decoration: none; margin: 0 5px;">
+          <img src="https://flagcdn.com/w40/ir.png" width="30" alt="فارسی">
+        </a>
+      </div>
       <h1 id="esp32-lexical-analyzer-compiler" class="animate__animated animate__fadeInDown">ESP32 Lexical Analyzer Compiler</h1>
       
       <p class="animate__animated animate__fadeIn">This project utilizes an ESP32 microcontroller to create a simple web server that allows users to upload a file through a web interface. Once the file is uploaded, the server performs lexical analysis on its content using a DFA (Deterministic Finite Automaton) to identify different types of tokens such as keywords, identifiers, numbers, strings, and symbols.</p>
