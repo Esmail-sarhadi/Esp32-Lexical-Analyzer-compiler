@@ -1,176 +1,211 @@
-
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ESP32 Lexical Analyzer Compiler Project by Esmail Sarhadi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="google-site-verification" content="vqq11CWNVkLVnZvjCeZReKc8-FRmgxek2SOWjr35CbY" />
     <link rel="shortcut icon" type="image/png" href="android-chrome-512x512.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Esp32-Lexical-Analyzer-compiler | This project utilizes an ESP32 microcontroller to create a simple web server that allows users to upload a file through a web interface. Once the file is uploaded, the server performs lexical analysis on its content using a DFA (Deterministic Finite Automaton) to identify different types of tokens such as keywords, identifiers, numbers, strings.</title>
-<meta name="generator" content="Jekyll v3.9.5" />
-<meta property="og:title" content="Esp32-Lexical-Analyzer-compiler" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="This project utilizes an ESP32 microcontroller to create a simple web server that allows users to upload a file through a web interface. Once the file is uploaded, the server performs lexical analysis on its content using a DFA (Deterministic Finite Automaton) to identify different types of tokens such as keywords, identifiers, numbers, strings." />
-<meta property="og:description" content="This project utilizes an ESP32 microcontroller to create a simple web server that allows users to upload a file through a web interface. Once the file is uploaded, the server performs lexical analysis on its content using a DFA (Deterministic Finite Automaton) to identify different types of tokens such as keywords, identifiers, numbers, strings." />
-<link rel="canonical" href="https://esmail-sarhadi.github.io/Esp32-Lexical-Analyzer-compiler/" />
-<meta property="og:url" content="https://esmail-sarhadi.github.io/Esp32-Lexical-Analyzer-compiler/" />
-<meta property="og:site_name" content="Esp32-Lexical-Analyzer-compiler" />
-<meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Esp32-Lexical-Analyzer-compiler" />
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","description":"This project utilizes an ESP32 microcontroller to create a simple web server that allows users to upload a file through a web interface. Once the file is uploaded, the server performs lexical analysis on its content using a DFA (Deterministic Finite Automaton) to identify different types of tokens such as keywords, identifiers, numbers, strings.","headline":"Esp32-Lexical-Analyzer-compiler","name":"Esp32-Lexical-Analyzer-compiler","url":"https://esmail-sarhadi.github.io/Esp32-Lexical-Analyzer-compiler/"}</script>
-<!-- End Jekyll SEO tag -->
-
-    <link rel="stylesheet" href="/Esp32-Lexical-Analyzer-compiler/assets/css/style.css?v=d4a77a67319c3f5b6931ca567272bd250b9f8313">
-    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
-
-<!-- Setup Google Analytics -->
-
-
-
-<!-- You can set your favicon here -->
-<!-- link rel="shortcut icon" type="image/x-icon" href="/Esp32-Lexical-Analyzer-compiler/favicon.ico" -->
-
-<!-- end custom head snippets -->
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+      @font-face {
+        font-family: 'Roboto';
+        src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        font-weight: normal;
+        font-style: normal;
+      }
+      body {
+        font-family: 'Roboto', Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f4f4f4;
+      }
+      .container-lg {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 5px;
+      }
+      h1, h2 {
+        color: #2c3e50;
+      }
+      .author-name {
+        font-size: 1.2em;
+        color: #e74c3c;
+        font-weight: bold;
+      }
+      .feature-list {
+        list-style-type: none;
+        padding-left: 0;
+      }
+      .feature-list li {
+        margin-bottom: 10px;
+        padding-left: 25px;
+        position: relative;
+      }
+      .feature-list li:before {
+        content: "\f00c";
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        left: 0;
+        color: #2ecc71;
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+      .btn:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+      }
+      .footer {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        text-align: center;
+        color: #7f8c8d;
+      }
+      .highlight-box {
+        background-color: #f9f9f9;
+        border-left: 5px solid #3498db;
+        padding: 15px;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+      }
+      .highlight-box:hover {
+        transform: translateX(5px);
+      }
+      pre {
+        background-color: #f1f1f1;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+    </style>
   </head>
   <body>
     <div class="container-lg px-3 my-5 markdown-body">
+      <h1 id="esp32-lexical-analyzer-compiler" class="animate__animated animate__fadeInDown">ESP32 Lexical Analyzer Compiler</h1>
       
-      <h1><a href="https://esmail-sarhadi.github.io/Esp32-Lexical-Analyzer-compiler/">Esp32-Lexical-Analyzer-compiler</a></h1>
-      
+      <p class="animate__animated animate__fadeIn">This project utilizes an ESP32 microcontroller to create a simple web server that allows users to upload a file through a web interface. Once the file is uploaded, the server performs lexical analysis on its content using a DFA (Deterministic Finite Automaton) to identify different types of tokens such as keywords, identifiers, numbers, strings, and symbols.</p>
 
-      
-<p><strong>ESP32 File Upload and Lexical Analyzer</strong></p>
+      <hr>
 
-<p>This project utilizes an ESP32 microcontroller to create a simple web server that allows users to upload a file through a web interface. Once the file is uploaded, the server performs lexical analysis on its content using a DFA (Deterministic Finite Automaton) to identify different types of tokens such as keywords, identifiers, numbers, strings, and symbols. The results are then displayed in a tabular format on the web page.</p>
+      <h2 id="features" class="animate__animated animate__fadeInLeft">✨ Features</h2>
 
-<h2 id="features">Features</h2>
+      <ul class="feature-list animate__animated animate__fadeInUp">
+        <li><strong>File Upload:</strong> Users can upload a file through a web interface.</li>
+        <li><strong>Lexical Analysis:</strong> Analyzes the uploaded file and identifies tokens using a DFA.</li>
+        <li><strong>Result Display:</strong> Displays the analysis results in a formatted HTML table.</li>
+        <li><strong>Web Server:</strong> ESP32 hosts a web server for easy access to the analyzer.</li>
+      </ul>
 
-<ul>
-  <li><strong>File Upload</strong>: Users can upload a file through a web interface.</li>
-  <li><strong>Lexical Analysis</strong>: Analyzes the uploaded file and identifies tokens using a DFA (Deterministic Finite Automaton).</li>
-  <li><strong>Result Display</strong>: Displays the analysis results in a formatted HTML table.</li>
-</ul>
+      <h2 id="components-required" class="animate__animated animate__fadeInLeft">🛠️ Components Required</h2>
 
-<h2 id="components-used">Components Used</h2>
+      <ul class="animate__animated animate__fadeInUp">
+        <li>ESP32 Microcontroller</li>
+        <li>Arduino IDE or compatible development environment</li>
+        <li>USB cable for programming the ESP32</li>
+      </ul>
 
-<ul>
-  <li><strong>ESP32 Microcontroller</strong></li>
-  <li><strong>Arduino IDE</strong> or any compatible development environment for programming the ESP32</li>
-</ul>
+      <h2 id="software-required" class="animate__animated animate__fadeInLeft">💻 Software Required</h2>
 
-<h2 id="getting-started">Getting Started</h2>
+      <ul class="animate__animated animate__fadeInUp">
+        <li>Arduino IDE</li>
+        <li>ESP32 board package for Arduino IDE</li>
+      </ul>
 
-<h3 id="prerequisites">Prerequisites</h3>
+      <h2 id="installation" class="animate__animated animate__fadeInLeft">🔧 Installation</h2>
 
-<ul>
-  <li>Arduino IDE installed on your computer</li>
-  <li>ESP32 board package installed in the Arduino IDE</li>
-  <li>Basic knowledge of HTML and C++ for understanding the code</li>
-</ul>
+      <ol class="animate__animated animate__fadeInUp">
+        <li><strong>Clone the repository:</strong>
+          <div class="highlight-box">
+            <pre><code>git clone https://github.com/Esmail-sarhadi/Esp32-Lexical-Analyzer-compiler.git</code></pre>
+          </div>
+        </li>
+        <li><strong>Open the project in Arduino IDE:</strong>
+          <ul>
+            <li>Navigate to the cloned directory and open the <code>main.ino</code> file.</li>
+          </ul>
+        </li>
+        <li><strong>Configure Wi-Fi credentials:</strong>
+          <ul>
+            <li>Update the <code>ssid</code> and <code>password</code> variables with your Wi-Fi network information.</li>
+          </ul>
+        </li>
+        <li><strong>Upload the code to ESP32:</strong>
+          <ul>
+            <li>Select the correct board and port in the Arduino IDE.</li>
+            <li>Click "Upload".</li>
+          </ul>
+        </li>
+      </ol>
 
-<h3 id="installation">Installation</h3>
+      <h2 id="usage" class="animate__animated animate__fadeInLeft">🚀 Usage</h2>
 
-<ol>
-  <li>
-    <p><strong>Clone the Repository</strong></p>
+      <ol class="animate__animated animate__fadeInUp">
+        <li><strong>Connect to the ESP32 web server:</strong>
+          <ul>
+            <li>Open the Serial Monitor in Arduino IDE to get the ESP32's IP address.</li>
+            <li>Enter this IP address in a web browser.</li>
+          </ul>
+        </li>
+        <li><strong>Upload a file:</strong>
+          <ul>
+            <li>Use the file upload form on the web page.</li>
+          </ul>
+        </li>
+        <li><strong>View analysis results:</strong>
+          <ul>
+            <li>The lexical analysis results will be displayed in a table format on the web page.</li>
+          </ul>
+        </li>
+      </ol>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/Esmail-sarhadi/Esp32-Lexical-Analyzer-compiler.git
-<span class="nb">cd </span>Esp32-Lexical-Analyzer-compiler
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p><strong>Setup Arduino IDE</strong></p>
+      <h2 id="code-explanation" class="animate__animated animate__fadeInLeft">📄 Code Explanation</h2>
 
-    <ul>
-      <li>Open the Arduino IDE.</li>
-      <li>Go to <strong>File</strong> -&gt; <strong>Open</strong> and select the <code class="language-plaintext highlighter-rouge">main.ino</code> file from the cloned repository.</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Configure Wi-Fi Credentials</strong></p>
+      <p class="animate__animated animate__fadeIn">The main components of the code include:</p>
 
-    <ul>
-      <li>Update the <code class="language-plaintext highlighter-rouge">ssid</code> and <code class="language-plaintext highlighter-rouge">password</code> variables in the code with your Wi-Fi network credentials.</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Upload the Code</strong></p>
+      <ul class="animate__animated animate__fadeInUp">
+        <li><code>index_html</code>: HTML for the file upload form.</li>
+        <li><code>analyzeText()</code>: Function for lexical analysis.</li>
+        <li><code>handleUpload()</code>: Function to handle file uploads.</li>
+        <li><code>setup()</code>: Initializes Wi-Fi and web server.</li>
+        <li><code>loop()</code>: Handles incoming client requests.</li>
+      </ul>
 
-    <ul>
-      <li>Connect your ESP32 board to your computer via USB.</li>
-      <li>Select the correct board and port from the <strong>Tools</strong> menu in the Arduino IDE.</li>
-      <li>Click on the <strong>Upload</strong> button.</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Access the Web Interface</strong></p>
+      <h2 id="contributing" class="animate__animated animate__fadeInLeft">🤝 Contributing</h2>
 
-    <ul>
-      <li>Open the Serial Monitor from the Arduino IDE.</li>
-      <li>Once the ESP32 connects to your Wi-Fi network, note the IP address displayed in the Serial Monitor.</li>
-      <li>Open a web browser and enter the IP address to access the file upload interface.</li>
-    </ul>
-  </li>
-</ol>
+      <p class="animate__animated animate__fadeIn">Contributions are welcome! Feel free to submit issues and pull requests.</p>
 
-<h2 id="usage">Usage</h2>
+      <h2 id="profile" class="animate__animated animate__fadeInLeft">👤 Profile</h2>
 
-<ol>
-  <li>Go to the web interface using the IP address provided by the ESP32.</li>
-  <li>Use the file upload form to select and upload a file.</li>
-  <li>The file content will be analyzed, and the results will be displayed in a table format on the web page.</li>
-</ol>
+      <p class="animate__animated animate__fadeIn">Check out my GitHub profile: <a href="https://github.com/Esmail-sarhadi" target="_blank" class="btn"><i class="fab fa-github"></i> Esmail Sarhadi</a></p>
 
-<h2 id="code-explanation">Code Explanation</h2>
+      <h2 id="project-link" class="animate__animated animate__fadeInLeft">🔗 Project Link</h2>
 
-<ul>
-  <li><strong>index_html</strong>: Contains the HTML for the file upload form.</li>
-  <li><strong>analyzeText()</strong>: Function to perform lexical analysis on the uploaded file content.</li>
-  <li><strong>handleUpload()</strong>: Function to handle file upload and trigger lexical analysis.</li>
-  <li><strong>setup()</strong>: Initializes Wi-Fi connection and sets up the web server.</li>
-  <li><strong>loop()</strong>: Continuously handles incoming client requests.</li>
-</ul>
+      <p class="animate__animated animate__fadeIn">View this project on GitHub: <a href="https://github.com/Esmail-sarhadi/Esp32-Lexical-Analyzer-compiler" target="_blank" class="btn"><i class="fab fa-github"></i> ESP32-Lexical-Analyzer-compiler</a></p>
 
-<h2 id="contributing">Contributing</h2>
+      <h2 id="donation" class="animate__animated animate__fadeInLeft">💖 Donation</h2>
 
-<p>Feel free to fork the repository and submit pull requests. Contributions are welcome to improve the functionality and features of this project.</p>
-<h2 id="profile">Profile</h2>
+      <p class="animate__animated animate__fadeIn">If you find this project helpful, consider making a donation:</p>
+      <p class="animate__animated animate__fadeIn"><a href="https://nowpayments.io/donation?api_key=REWCYVC-A1AMFK3-QNRS663-PKJSBD2&source=lk_donation&medium=referral" target="_blank" class="btn">
+        <i class="fas fa-donate"></i> Donate Cryptocurrency
+      </a></p>
 
-<p>Check out my GitHub profile: <a href="https://github.com/Esmail-sarhadi" target="_blank">Esmail Sarhadi</a></p>
-
-<h2 id="project-link">Project Link</h2>
-
-<p>View this project on GitHub: <a href="https://https://github.com/Esmail-sarhadi/Esp32-Lexical-Analyzer-compiler" target="_blank">Esp32-Lexical-Analyzer-compiler</a></p>
-
-<h2 id="donation">Donation</h2>
-
-<p>If you find this project helpful, consider making a donation:</p>
-<p><a href="https://nowpayments.io/donation?api_key=REWCYVC-A1AMFK3-QNRS663-PKJSBD2&source=lk_donation&medium=referral" target="_blank">
-     <img src="https://nowpayments.io/images/embeds/donation-button-black.svg" alt="Crypto donation button by NOWPayments">
-</a></p>
-<h2 id="license">License</h2>
-
-<p>This project is licensed under the MIT License - see the <a href="/Esp32-Lexical-Analyzer-compiler/LICENSE">LICENSE</a> file for details.</p>
-
-<h2 id="acknowledgements">Acknowledgements</h2>
-
-<ul>
-  <li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/">ESP32 Documentation</a></li>
-  <li><a href="https://www.arduino.cc/en/software">Arduino IDE</a></li>
-</ul>
-
-
-      
-      <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
-        This site is open source. <a href="https://github.com/Esmail-sarhadi/Esp32-Lexical-Analyzer-compiler/edit/main/README.md">Improve this page</a>.
+      <div class="footer animate__animated animate__fadeIn">
+        <p>This site is open source. <a href="https://github.com/Esmail-sarhadi/Esp32-Lexical-Analyzer-compiler/edit/main/README.md">Improve this page</a>.</p>
+        <p>Made with ❤️ by <span class="author-name">Esmail Sarhadi</span></p>
       </div>
-      
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
     <script>anchors.add();</script>
