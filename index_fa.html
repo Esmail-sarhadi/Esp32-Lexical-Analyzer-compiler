@@ -84,6 +84,23 @@
       .highlight-box:hover {
         transform: translateX(-5px);
       }
+      .language-switch {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        display: flex;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 5px 10px;
+        border-radius: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      .language-switch img {
+        transition: transform 0.3s ease;
+      }
+      .language-switch img:hover {
+        transform: scale(1.1);
+      }
       pre {
         background-color: #f1f1f1;
         padding: 15px;
@@ -94,6 +111,15 @@
   </head>
   <body>
     <div class="container-lg px-3 my-5 markdown-body">
+      <div class="language-switch">
+        <span style="font-size: 1.2em; font-weight: bold; margin-left: 10px;">زبان</span>
+        <a href="index.html" style="text-decoration: none; margin: 0 5px;">
+          <img src="https://flagcdn.com/w40/gb.png" width="30" alt="English">
+        </a>
+        <a href="index_fa.html" style="text-decoration: none; margin: 0 5px;">
+          <img src="https://flagcdn.com/w40/ir.png" width="30" alt="فارسی">
+        </a>
+      </div>
       <h1 id="esp32-lexical-analyzer-compiler" class="animate__animated animate__fadeInDown">تحلیلگر لغوی و کامپایلر ESP32</h1>
       
       <p class="animate__animated animate__fadeIn">این پروژه از یک میکروکنترلر ESP32 برای ایجاد یک سرور وب ساده استفاده می‌کند که به کاربران اجازه می‌دهد از طریق یک رابط وب، فایل آپلود کنند. پس از آپلود فایل، سرور با استفاده از یک DFA (اتوماتون محدود قطعی) تحلیل لغوی را بر روی محتوای آن انجام می‌دهد تا انواع مختلف توکن‌ها مانند کلمات کلیدی، شناسه‌ها، اعداد، رشته‌ها و نمادها را شناسایی کند.</p>
