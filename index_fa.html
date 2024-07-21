@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>پروژه تحلیلگر لغوی ESP32 توسط اسماعیل سرحدی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="google-site-verification" content="vqq11CWNVkLVnZvjCeZReKc8-FRmgxek2SOWjr35CbY" /> 
+    <link rel="shortcut icon" type="image/png" href="android-chrome-512x512.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+      @font-face {
+        font-family: 'Vazir';
+        src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/Vazir-Regular.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+      }
+      body {
+        font-family: 'Vazir', Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f4f4f4;
+      }
+      .container-lg {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 5px;
+      }
+      h1, h2 {
+        color: #2c3e50;
+      }
+      .author-name {
+        font-size: 1.2em;
+        color: #e74c3c;
+        font-weight: bold;
+      }
+      .feature-list {
+        list-style-type: none;
+        padding-right: 0;
+      }
+      .feature-list li {
+        margin-bottom: 10px;
+        padding-right: 25px;
+        position: relative;
+      }
+      .feature-list li:before {
+        content: "\f00c";
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        right: 0;
+        color: #2ecc71;
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+      .btn:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+      }
+      .footer {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        text-align: center;
+        color: #7f8c8d;
+      }
+      .highlight-box {
+        background-color: #f9f9f9;
+        border-right: 5px solid #3498db;
+        padding: 15px;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+      }
+      .highlight-box:hover {
+        transform: translateX(-5px);
+      }
+      pre {
+        background-color: #f1f1f1;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      <h1 id="esp32-lexical-analyzer-compiler" class="animate__animated animate__fadeInDown">تحلیلگر لغوی و کامپایلر ESP32</h1>
+      
+      <p class="animate__animated animate__fadeIn">این پروژه از یک میکروکنترلر ESP32 برای ایجاد یک سرور وب ساده استفاده می‌کند که به کاربران اجازه می‌دهد از طریق یک رابط وب، فایل آپلود کنند. پس از آپلود فایل، سرور با استفاده از یک DFA (اتوماتون محدود قطعی) تحلیل لغوی را بر روی محتوای آن انجام می‌دهد تا انواع مختلف توکن‌ها مانند کلمات کلیدی، شناسه‌ها، اعداد، رشته‌ها و نمادها را شناسایی کند.</p>
+
+      <hr>
+
+      <h2 id="features" class="animate__animated animate__fadeInRight">✨ ویژگی‌ها</h2>
+
+      <ul class="feature-list animate__animated animate__fadeInUp">
+        <li><strong>آپلود فایل:</strong> کاربران می‌توانند از طریق رابط وب فایل آپلود کنند.</li>
+        <li><strong>تحلیل لغوی:</strong> فایل آپلود شده را تحلیل کرده و با استفاده از DFA توکن‌ها را شناسایی می‌کند.</li>
+        <li><strong>نمایش نتایج:</strong> نتایج تحلیل را در قالب یک جدول HTML فرمت‌شده نمایش می‌دهد.</li>
+        <li><strong>سرور وب:</strong> ESP32 یک سرور وب را برای دسترسی آسان به تحلیلگر میزبانی می‌کند.</li>
+      </ul>
+
+      <h2 id="components-required" class="animate__animated animate__fadeInRight">🛠️ اجزای مورد نیاز</h2>
+
+      <ul class="animate__animated animate__fadeInUp">
+        <li>میکروکنترلر ESP32</li>
+        <li>Arduino IDE یا محیط توسعه سازگار</li>
+        <li>کابل USB برای برنامه‌ریزی ESP32</li>
+      </ul>
+
+      <h2 id="software-required" class="animate__animated animate__fadeInRight">💻 نرم‌افزارهای مورد نیاز</h2>
+
+      <ul class="animate__animated animate__fadeInUp">
+        <li>Arduino IDE</li>
+        <li>بسته برد ESP32 برای Arduino IDE</li>
+      </ul>
+
+      <h2 id="installation" class="animate__animated animate__fadeInRight">🔧 نصب و راه‌اندازی</h2>
+
+      <ol class="animate__animated animate__fadeInUp">
+        <li><strong>کلون کردن مخزن:</strong>
+          <div class="highlight-box">
+            <pre><code>git clone https://github.com/Esmail-sarhadi/Esp32-Lexical-Analyzer-compiler.git</code></pre>
+          </div>
+        </li>
+        <li><strong>باز کردن پروژه در Arduino IDE:</strong>
+          <ul>
+            <li>به دایرکتوری کلون شده بروید و فایل <code>main.ino</code> را باز کنید.</li>
+          </ul>
+        </li>
+        <li><strong>پیکربندی اطلاعات Wi-Fi:</strong>
+          <ul>
+            <li>متغیرهای <code>ssid</code> و <code>password</code> را با اطلاعات شبکه Wi-Fi خود به‌روزرسانی کنید.</li>
+          </ul>
+        </li>
+        <li><strong>آپلود کد به ESP32:</strong>
+          <ul>
+            <li>برد و پورت صحیح را در Arduino IDE انتخاب کنید.</li>
+            <li>روی "آپلود" کلیک کنید.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <h2 id="usage" class="animate__animated animate__fadeInRight">🚀 نحوه استفاده</h2>
+
+      <ol class="animate__animated animate__fadeInUp">
+        <li><strong>اتصال به سرور وب ESP32:</strong>
+          <ul>
+            <li>Serial Monitor را در Arduino IDE باز کنید تا آدرس IP مربوط به ESP32 را دریافت کنید.</li>
+            <li>این آدرس IP را در مرورگر وب وارد کنید.</li>
+          </ul>
+        </li>
+        <li><strong>آپلود فایل:</strong>
+          <ul>
+            <li>از فرم آپلود فایل در صفحه وب استفاده کنید.</li>
+          </ul>
+        </li>
+        <li><strong>مشاهده نتایج تحلیل:</strong>
+          <ul>
+            <li>نتایج تحلیل لغوی در قالب یک جدول در صفحه وب نمایش داده خواهد شد.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <h2 id="code-explanation" class="animate__animated animate__fadeInRight">📄 توضیح کد</h2>
+
+      <p class="animate__animated animate__fadeIn">اجزای اصلی کد عبارتند از:</p>
+
+      <ul class="animate__animated animate__fadeInUp">
+        <li><code>index_html</code>: HTML برای فرم آپلود فایل.</li>
+        <li><code>analyzeText()</code>: تابع برای تحلیل لغوی.</li>
+        <li><code>handleUpload()</code>: تابع برای مدیریت آپلود فایل‌ها.</li>
+        <li><code>setup()</code>: راه‌اندازی Wi-Fi و سرور وب.</li>
+        <li><code>loop()</code>: مدیریت درخواست‌های ورودی از سمت کاربر.</li>
+      </ul>
+
+      <h2 id="contributing" class="animate__animated animate__fadeInRight">🤝 مشارکت</h2>
+
+      <p class="animate__animated animate__fadeIn">مشارکت‌ها خوش‌آمدند! لطفاً از ارسال مشکلات و درخواست‌های کشش دریغ نکنید.</p>
+
+      <h2 id="profile" class="animate__animated animate__fadeInRight">👤 پروفایل</h2>
+
+      <p class="animate__animated animate__fadeIn">پروفایل GitHub من را بررسی کنید: <a href="https://github.com/Esmail-sarhadi" target="_blank" class="btn"><i class="fab fa-github"></i> اسماعیل سرحدی</a></p>
+
+      <h2 id="project-link" class="animate__animated animate__fadeInRight">🔗 لینک پروژه</h2>
+
+      <p class="animate__animated animate__fadeIn">این پروژه را در GitHub مشاهده کنید: <a href="https://github.com/Esmail-sarhadi/Esp32-Lexical-Analyzer-compiler" target="_blank" class="btn"><i class="fab fa-github"></i> ESP32-Lexical-Analyzer-compiler</a></p>
+
+      <h2 id="donation" class="animate__animated animate__fadeInRight">💖 حمایت مالی</h2>
+
+      <p class="animate__animated animate__fadeIn">اگر این پروژه برای شما مفید بود، لطفاً حمایت مالی را در نظر بگیرید:</p>
+      <p class="animate__animated animate__fadeIn"><a href="https://nowpayments.io/donation?api_key=REWCYVC-A1AMFK3-QNRS663-PKJSBD2&source=lk_donation&medium=referral" target="_blank" class="btn">
+        <i class="fas fa-donate"></i> اهدای ارز دیجیتال
+      </a></p>
+
+      <div class="footer animate__animated animate__fadeIn">
+        <p>این سایت منبع باز است. <a href="https://github.com/Esmail-sarhadi/Esp32-Lexical-Analyzer-compiler/edit/main/README.md">این صفحه را بهبود دهید</a>.</p>
+        <p>ساخته شده با ❤️ توسط <span class="author-name">اسماعیل سرحدی</span></p>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+    <script>anchors.add();</script>
+  </body>
+</html>
